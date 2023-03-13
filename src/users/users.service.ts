@@ -24,6 +24,10 @@ export class UsersService {
     return await this.usersRepository.save(createUserDto);
   }
 
+  async findOneByName(name: string): Promise<User> {
+    return this.usersRepository.findOne({ where: { name } });
+  }
+
   findAll() {
     return this.usersRepository.find();
   }
