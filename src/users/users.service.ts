@@ -24,7 +24,7 @@ export class UsersService {
     return await this.usersRepository.save(createUserDto);
   }
 
-  async findOneByName(name: string): Promise<User> {
+  async findByName(name: string): Promise<User> {
     return this.usersRepository.findOne({ where: { name } });
   }
 
