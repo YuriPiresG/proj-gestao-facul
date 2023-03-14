@@ -4,7 +4,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -14,8 +13,6 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    console.log(hashedPassword);
     const userWithSameEmail = await this.usersRepository.findOneBy({
       email: createUserDto.email,
     });
@@ -23,7 +20,6 @@ export class UsersService {
     if (userWithSameEmail !== null) {
       throw new ConflictException('Email already exists');
     }
-    createUserDto.password = hashedPassword;
     return await this.usersRepository.save(createUserDto);
   }
 
