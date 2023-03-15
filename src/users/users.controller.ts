@@ -13,7 +13,6 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('users')
@@ -26,7 +25,7 @@ export class UsersController {
     return req.user;
   }
 
-  @Post('create')
+  @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
@@ -38,7 +37,7 @@ export class UsersController {
 
   @Get(':name')
   async findByName(@Param('name') name: string): Promise<User> {
-    return this.usersService.findByName(name);
+    return this.usersService.findByUsername(name);
   }
 
   @Get(':id')

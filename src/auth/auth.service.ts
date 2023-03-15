@@ -5,6 +5,7 @@ import { User } from 'src/users/entities/user.entity';
 import { UserRole } from 'src/users/constants/user-role.constant';
 
 export interface JwtPayload {
+  username: string;
   name: string;
   sub: number;
   role: UserRole;
@@ -18,8 +19,8 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findByName(username);
-    if (user.password === pass && user.name === username) {
+    const user = await this.usersService.findByUsername(username);
+    if (user.password === pass && user.username === username) {
       const { password, ...result } = user;
       return result;
     }
@@ -28,6 +29,7 @@ export class AuthService {
 
   async login(user: User) {
     const payload: JwtPayload = {
+      username: user.username,
       name: user.name,
       sub: user.id,
       role: user.role,
