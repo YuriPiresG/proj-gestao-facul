@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   UseGuards,
-  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -15,15 +14,15 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserDec } from 'src/decorator/user.decorator';
+import { UserJwtPayload } from 'src/auth/jwt.strategy';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get('me')
-  getMe(@UserDec() req) {
-    return req.user;
+  getMe(@UserDec() user: UserJwtPayload) {
+    return user;
   }
 
   @Post()

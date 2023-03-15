@@ -5,7 +5,7 @@ import { jwtConstants } from './constants';
 import { JwtPayload } from './auth.service';
 import { UserRole } from 'src/users/constants/user-role.constant';
 
-interface UserJwtPayload {
+export interface UserJwtPayload {
   userId: number;
   username: string;
   name: string;
