@@ -13,6 +13,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserDec } from 'src/decorator/user.decorator';
 import { UserJwtPayload } from 'src/auth/jwt.strategy';
+import { Roles } from 'src/decorator/roles.decorator';
+import { UserRole } from './constants/user-role.constant';
 
 @Controller('users')
 export class UsersController {
@@ -20,10 +22,10 @@ export class UsersController {
 
   @Get('me')
   getMe(@UserDec() user: UserJwtPayload) {
-    console.log(user);
     return user;
   }
 
+  @Roles(UserRole.STUDENT)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
