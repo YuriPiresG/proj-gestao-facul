@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
 import { UserRole } from 'src/users/constants/user-role.constant';
+import * as bcrypt from 'bcrypt';
 
 export interface JwtPayload {
   username: string;
@@ -19,8 +20,10 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
+    const hashedPassword = await bcrypt.hash(pass, 10);
+    const isMatch = await bcrypt.compare(pass, hashedPassword);
     const user = await this.usersService.findByUsername(username);
-    if (user.password === pass && user.username === username) {
+    if (isMatch == true && user.username === username) {
       const { password, ...result } = user;
       return result;
     }

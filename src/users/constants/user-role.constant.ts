@@ -3,4 +3,5 @@ export enum UserRole {
   COORDINATOR,
   TEACHER,
   STUDENT,
+  ADMIN,
 }

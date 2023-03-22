@@ -25,8 +25,8 @@ export class UsersController {
     return user;
   }
 
-  @Roles(UserRole.STUDENT)
   @Post()
+  // @Roles(UserRole.DIRECTOR)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
