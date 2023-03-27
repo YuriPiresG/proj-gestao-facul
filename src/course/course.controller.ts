@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { Roles } from 'src/decorator/roles.decorator';
+import { UserRole } from 'src/users/constants/user-role.constant';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
@@ -8,6 +18,7 @@ export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
   @Post()
+  @Roles(UserRole.COORDINATOR, UserRole.ADMIN)
   create(@Body() createCourseDto: CreateCourseDto) {
     return this.courseService.create(createCourseDto);
   }
