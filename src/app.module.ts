@@ -9,6 +9,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { RolesGuard } from './auth/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { CourseModule } from './course/course.module';
+import { Course } from './course/entities/course.entity';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { CourseModule } from './course/course.module';
       username: 'postgres',
       password: 'admin123',
       database: 'gestao_facul',
-      entities: [User],
+      entities: [User, Course],
       synchronize: true,
     }),
     UsersModule,
