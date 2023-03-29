@@ -9,7 +9,7 @@ export class Course {
   name: string;
 
   @Column()
-  coordinator: string;
+  coordinatorId: number;
 
   @Column()
   durationHours: number;

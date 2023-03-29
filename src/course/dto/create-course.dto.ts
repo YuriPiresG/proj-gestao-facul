@@ -6,8 +6,8 @@ export class CreateCourseDto {
   name: string;
 
   @IsNotEmpty()
-  @IsString()
-  coordinator: string;
+  @IsNumber()
+  coordinatorId: number;
 
   @IsNotEmpty()
   @IsNumber()
