@@ -27,7 +27,7 @@ export class CourseService {
     return this.courseRepository.find();
   }
 
-  async findOne(id: number) {
+  async findById(id: number) {
     const foundCourse = this.courseRepository.findOne({ where: { id } });
     const coordInfo = this.userService.findOne(
       (await foundCourse).coordinatorId,
@@ -37,6 +37,9 @@ export class CourseService {
       id: id,
       name: (await foundCourse).name,
       coordinator: (await coordInfo).name,
+      durationHours: (await foundCourse).durationHours,
+      quantityClass: (await foundCourse).quantityClass,
+      quantitySemester: (await foundCourse).quantitySemester,
     };
     return courseCoordRelation;
   }
