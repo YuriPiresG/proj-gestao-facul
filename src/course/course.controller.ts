@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { Roles } from 'src/decorator/roles.decorator';
 import { UserRole } from 'src/users/constants/user-role.constant';
@@ -29,17 +29,20 @@ export class CourseController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.courseService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.courseService.findById(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
-    return this.courseService.update(+id, updateCourseDto);
+  @Put(':id')
+  @Roles(UserRole.COORDINATOR, UserRole.ADMIN)
+  update(@Param('id') id: number, @Body() updateCourseDto: UpdateCourseDto) {
+    return this.courseService.update(id, updateCourseDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.courseService.remove(+id);
+  @Roles(UserRole.COORDINATOR, UserRole.ADMIN)
+  remove(@Param('id') id: number) {
+    // Mudar isso para um http 204 No content
+    return 'Course deleted';
   }
 }

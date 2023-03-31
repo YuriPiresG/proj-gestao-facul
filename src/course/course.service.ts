@@ -32,7 +32,7 @@ export class CourseService {
     const coordInfo = this.userService.findOne(
       (await foundCourse).coordinatorId,
     );
-    // Ver com o melo, eu sei que não é assim que se faz
+    // Ver com o melo, eu sei que não é assim que se faz, porém foi o único jeito que consegui deixar bonito
     const courseCoordRelation = {
       id: id,
       name: (await foundCourse).name,
@@ -44,11 +44,18 @@ export class CourseService {
     return courseCoordRelation;
   }
 
-  update(id: number, updateCourseDto: UpdateCourseDto) {
-    return `This action updates a #${id} course`;
+  // Ta retornando a promisse, ao invés da DTO
+  async update(id: number, updateCourseDto: UpdateCourseDto) {
+    const isCoordinator = await this.userService.findOne(
+      updateCourseDto.coordinatorId,
+    );
+    if (isCoordinator.role !== 0 && isCoordinator.role !== 2) {
+      throw new ForbiddenException('User is not a coordinator or Admin');
+    }
+    return await this.courseRepository.update(id, updateCourseDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} course`;
+    return this.courseRepository.delete(id);
   }
 }
