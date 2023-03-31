@@ -38,11 +38,21 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  // Ver com o Melo, está dando erro de Unique. Não está dando replace no banco de dados.
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const userWithSameEmail = await this.usersRepository.findOneBy({
+      email: updateUserDto.email,
+    });
+
+    if (userWithSameEmail !== null) {
+      throw new ConflictException('Email already exists');
+    }
+    const hashPass = await bcrypt.hash(updateUserDto.password, 10);
+    updateUserDto.password = hashPass;
+    return await this.usersRepository.update(id, updateUserDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.usersRepository.delete(id);
   }
 }
