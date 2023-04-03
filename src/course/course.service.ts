@@ -40,6 +40,7 @@ export class CourseService {
       durationHours: (await foundCourse).durationHours,
       quantityClass: (await foundCourse).quantityClass,
       quantitySemester: (await foundCourse).quantitySemester,
+      periods: (await foundCourse).periods,
     };
     return courseCoordRelation;
   }
