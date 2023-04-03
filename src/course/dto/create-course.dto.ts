@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { Periods } from '../constants/period.constant';
 
 export class CreateCourseDto {
@@ -22,7 +22,6 @@ export class CreateCourseDto {
   @IsNumber()
   quantitySemester: number;
 
-  @IsNotEmpty()
-  @IsString({ each: true })
-  period: Periods[];
+  @IsEnum(Periods, { each: true })
+  periods: Periods[];
 }

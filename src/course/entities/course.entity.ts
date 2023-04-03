@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Periods } from '../constants/period.constant';
 
 @Entity()
 export class Course {
@@ -21,5 +22,5 @@ export class Course {
   quantitySemester: number;
 
   @Column('simple-array')
-  objectives: string[];
+  periods: Periods[];
 }
