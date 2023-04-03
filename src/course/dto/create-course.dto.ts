@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Periods } from '../constants/period.constant';
 
 export class CreateCourseDto {
   @IsNotEmpty()
@@ -23,5 +24,5 @@ export class CreateCourseDto {
 
   @IsNotEmpty()
   @IsString({ each: true })
-  objectives: string[];
+  period: Periods[];
 }
