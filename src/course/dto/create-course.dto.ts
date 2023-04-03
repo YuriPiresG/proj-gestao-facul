@@ -20,4 +20,8 @@ export class CreateCourseDto {
   @IsNotEmpty()
   @IsNumber()
   quantitySemester: number;
+
+  @IsNotEmpty()
+  @IsString({ each: true })
+  objectives: string[];
 }
