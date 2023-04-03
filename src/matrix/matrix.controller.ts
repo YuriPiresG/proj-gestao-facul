@@ -1,13 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { MatrixService } from './matrix.service';
 import { CreateMatrixDto } from './dto/create-matrix.dto';
 import { UpdateMatrixDto } from './dto/update-matrix.dto';
+import { Roles } from 'src/decorator/roles.decorator';
+import { UserRole } from 'src/users/constants/user-role.constant';
 
 @Controller('matrix')
 export class MatrixController {
   constructor(private readonly matrixService: MatrixService) {}
 
   @Post()
+  @Roles(UserRole.COORDINATOR, UserRole.ADMIN)
   create(@Body() createMatrixDto: CreateMatrixDto) {
     return this.matrixService.create(createMatrixDto);
   }

@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateMatrixDto } from './dto/create-matrix.dto';
 import { UpdateMatrixDto } from './dto/update-matrix.dto';
+import { Matrix } from './entities/matrix.entity';
 
 @Injectable()
 export class MatrixService {
+  constructor(
+    @InjectRepository(Matrix)
+    private matrixRepository: Repository<Matrix>,
+  ) {}
   create(createMatrixDto: CreateMatrixDto) {
-    return 'This action adds a new matrix';
+    return this.matrixRepository.save(createMatrixDto);
   }
 
   findAll() {

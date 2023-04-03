@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateMatrixDto {
   @IsNotEmpty()
@@ -6,10 +6,10 @@ export class CreateMatrixDto {
   courseId: number;
 
   @IsNotEmpty()
-  @IsString()
-  objectives: string[];
+  @IsArray()
+  classes: string[];
 
   @IsNotEmpty()
-  @IsString()
-  classes: string;
+  @IsArray()
+  objectives: string[];
 }

@@ -11,6 +11,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { CourseModule } from './course/course.module';
 import { Course } from './course/entities/course.entity';
 import { MatrixModule } from './matrix/matrix.module';
+import { Matrix } from './matrix/entities/matrix.entity';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { MatrixModule } from './matrix/matrix.module';
       username: 'postgres',
       password: 'admin123',
       database: 'gestao_facul',
-      entities: [User, Course],
+      entities: [User, Course, Matrix],
       synchronize: true,
     }),
     UsersModule,
