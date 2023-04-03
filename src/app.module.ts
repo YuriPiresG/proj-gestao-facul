@@ -10,6 +10,7 @@ import { RolesGuard } from './auth/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { CourseModule } from './course/course.module';
 import { Course } from './course/entities/course.entity';
+import { MatrixModule } from './matrix/matrix.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { Course } from './course/entities/course.entity';
     UsersModule,
     AuthModule,
     CourseModule,
+    MatrixModule,
   ],
   controllers: [AppController],
   providers: [
