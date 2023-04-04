@@ -5,6 +5,7 @@ import { Course } from './entities/course.entity';
 import { UsersService } from 'src/users/users.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
+import { MatrixService } from 'src/matrix/matrix.service';
 
 @Injectable()
 export class CourseService {
@@ -25,6 +26,10 @@ export class CourseService {
 
   findAll() {
     return this.courseRepository.find();
+  }
+
+  async searchById(id: number) {
+    return await this.courseRepository.findOne({ where: { id } });
   }
 
   async findById(id: number) {
