@@ -33,19 +33,17 @@ export class CourseService {
   }
 
   async findById(id: number) {
-    const foundCourse = this.courseRepository.findOne({ where: { id } });
-    const coordInfo = this.userService.findOne(
-      (await foundCourse).coordinatorId,
-    );
+    const foundCourse = await this.courseRepository.findOne({ where: { id } });
+    const coordInfo = await this.userService.findOne(foundCourse.coordinatorId);
     // Ver com o melo, eu sei que não é assim que se faz, porém foi o único jeito que consegui deixar bonito
     const courseCoordRelation = {
       id: id,
-      name: (await foundCourse).name,
-      coordinator: (await coordInfo).name,
-      durationHours: (await foundCourse).durationHours,
-      quantityClass: (await foundCourse).quantityClass,
-      quantitySemester: (await foundCourse).quantitySemester,
-      periods: (await foundCourse).periods,
+      name: foundCourse.name,
+      coordinator: coordInfo.name,
+      durationHours: foundCourse.durationHours,
+      quantityClass: foundCourse.quantityClass,
+      quantitySemester: foundCourse.quantitySemester,
+      periods: foundCourse.periods,
     };
     return courseCoordRelation;
   }
