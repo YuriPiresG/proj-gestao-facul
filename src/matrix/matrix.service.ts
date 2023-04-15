@@ -20,7 +20,7 @@ export class MatrixService {
   }
 
   findAll() {
-    return this.matrixRepository.find();
+    return this.matrixRepository.find({ relations: ['courseId'] });
   }
 
   async findOne(id: number) {
@@ -31,7 +31,7 @@ export class MatrixService {
   }
 
   update(id: number, updateMatrixDto: UpdateMatrixDto) {
-    return `This action updates a #${id} matrix`;
+    return this.matrixRepository.save({ id, ...updateMatrixDto });
   }
 
   remove(id: number) {

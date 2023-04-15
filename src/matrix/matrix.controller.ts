@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { MatrixService } from './matrix.service';
 import { CreateMatrixDto } from './dto/create-matrix.dto';
@@ -33,7 +33,7 @@ export class MatrixController {
     return this.matrixService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateMatrixDto: UpdateMatrixDto) {
     return this.matrixService.update(+id, updateMatrixDto);
   }
