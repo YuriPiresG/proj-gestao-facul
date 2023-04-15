@@ -38,7 +38,7 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { id } });
   }
 
-  // Ver com o Melo, está dando erro de Unique. Não está dando replace no banco de dados.
+  // TODO: Ver com o Melo, está dando erro de Unique. Não está dando replace no banco de dados.
   async update(id: number, updateUserDto: UpdateUserDto) {
     const userWithSameEmail = await this.usersRepository.findOneBy({
       email: updateUserDto.email,

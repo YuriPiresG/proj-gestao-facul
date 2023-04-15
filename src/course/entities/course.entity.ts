@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Periods } from '../constants/period.constant';
+import { Matrix } from 'src/matrix/entities/matrix.entity';
 
 @Entity()
 export class Course {
@@ -9,6 +10,7 @@ export class Course {
   @Column({ unique: true })
   name: string;
 
+  //TODO: Relacionamento OneToMany TYPEORM, pesquisar
   @Column()
   coordinatorId: number;
 
@@ -23,4 +25,7 @@ export class Course {
 
   @Column('simple-array')
   periods: Periods[];
+
+  @OneToMany(() => Matrix, (matrix) => matrix.courseId)
+  matrices: Matrix[];
 }

@@ -16,10 +16,6 @@ export class MatrixService {
     private userService: UsersService,
   ) {}
   async create(createMatrixDto: CreateMatrixDto) {
-    const isCourse = await this.courseService.searchById(
-      createMatrixDto.courseId,
-    );
-    if (!isCourse) throw new ForbiddenException('Course not found');
     return await this.matrixRepository.save(createMatrixDto);
   }
 
@@ -27,18 +23,18 @@ export class MatrixService {
     return this.matrixRepository.find();
   }
 
-  async findOne(id: number) {
-    const matrixFound = this.matrixRepository.findOne({ where: { id } });
-    const courseInfo = this.courseService.searchById(
-      (await matrixFound).courseId,
-    );
-    return {
-      id: id,
-      courseName: (await courseInfo).name,
-      classes: (await matrixFound).classes,
-      objectives: (await matrixFound).objectives,
-    };
-  }
+  // async findOne(id: number) {
+  //   const matrixFound = this.matrixRepository.findOne({ where: { id } });
+  //   const courseInfo = this.courseService.searchById(
+  //     (await matrixFound).courseId,
+  //   );
+  //   return {
+  //     id: id,
+  //     courseName: (await courseInfo).name,
+  //     classes: (await matrixFound).classes,
+  //     objectives: (await matrixFound).objectives,
+  //   };
+  // }
 
   update(id: number, updateMatrixDto: UpdateMatrixDto) {
     return `This action updates a #${id} matrix`;

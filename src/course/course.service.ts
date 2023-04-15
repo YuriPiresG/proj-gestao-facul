@@ -6,6 +6,7 @@ import { UsersService } from 'src/users/users.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { MatrixService } from 'src/matrix/matrix.service';
+import { UserRole } from 'src/users/constants/user-role.constant';
 
 @Injectable()
 export class CourseService {
@@ -15,10 +16,13 @@ export class CourseService {
     private userService: UsersService,
   ) {}
   async create(createCourseDto: CreateCourseDto) {
-    const isCoordinator = await this.userService.findOne(
+    const userCoordinator = await this.userService.findOne(
       createCourseDto.coordinatorId,
     );
-    if (isCoordinator.role !== 0 && isCoordinator.role !== 2) {
+    if (
+      userCoordinator.role !== UserRole.ADMIN &&
+      userCoordinator.role !== UserRole.COORDINATOR
+    ) {
       throw new ForbiddenException('User is not a coordinator or Admin');
     }
     return await this.courseRepository.save(createCourseDto);
@@ -32,10 +36,10 @@ export class CourseService {
     return await this.courseRepository.findOne({ where: { id } });
   }
 
+  //TODO: alterar codigo depois de implementar o relacionamento entre curso e coordenador OneToMany
   async findById(id: number) {
     const foundCourse = await this.courseRepository.findOne({ where: { id } });
     const coordInfo = await this.userService.findOne(foundCourse.coordinatorId);
-    // Ver com o melo, eu sei que não é assim que se faz, porém foi o único jeito que consegui deixar bonito
     const courseCoordRelation = {
       id: id,
       name: foundCourse.name,
@@ -48,15 +52,17 @@ export class CourseService {
     return courseCoordRelation;
   }
 
-  // Ta retornando a promisse, ao invés da DTO
   async update(id: number, updateCourseDto: UpdateCourseDto) {
     const isCoordinator = await this.userService.findOne(
       updateCourseDto.coordinatorId,
     );
-    if (isCoordinator.role !== 0 && isCoordinator.role !== 2) {
+    if (
+      isCoordinator.role !== UserRole.ADMIN &&
+      isCoordinator.role !== UserRole.COORDINATOR
+    ) {
       throw new ForbiddenException('User is not a coordinator or Admin');
     }
-    return await this.courseRepository.update(id, updateCourseDto);
+    return this.courseRepository.save({ ...updateCourseDto, id });
   }
 
   remove(id: number) {

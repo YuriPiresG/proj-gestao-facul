@@ -42,7 +42,7 @@ export class CourseController {
   @Delete(':id')
   @Roles(UserRole.COORDINATOR, UserRole.ADMIN)
   remove(@Param('id') id: number) {
-    // Mudar isso para um http 204 No content
+    // TODO: Mudar isso para um http 204 No content
     return 'Course deleted';
   }
 }
