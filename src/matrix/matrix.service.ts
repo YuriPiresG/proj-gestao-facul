@@ -23,18 +23,12 @@ export class MatrixService {
     return this.matrixRepository.find();
   }
 
-  // async findOne(id: number) {
-  //   const matrixFound = this.matrixRepository.findOne({ where: { id } });
-  //   const courseInfo = this.courseService.searchById(
-  //     (await matrixFound).courseId,
-  //   );
-  //   return {
-  //     id: id,
-  //     courseName: (await courseInfo).name,
-  //     classes: (await matrixFound).classes,
-  //     objectives: (await matrixFound).objectives,
-  //   };
-  // }
+  async findOne(id: number) {
+    return this.matrixRepository.findOne({
+      where: { id },
+      relations: ['courseId'],
+    });
+  }
 
   update(id: number, updateMatrixDto: UpdateMatrixDto) {
     return `This action updates a #${id} matrix`;

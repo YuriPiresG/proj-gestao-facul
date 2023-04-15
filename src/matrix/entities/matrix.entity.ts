@@ -13,5 +13,5 @@ export class Matrix {
   classes: string[];
 
   @Column('simple-array')
-  skills: string[];
+  skillsDescription: string[];
 }

@@ -1,7 +1,7 @@
 import { IsArray, IsNotEmpty, IsNumber } from 'class-validator';
 import { Course } from 'src/course/entities/course.entity';
 
-export class CreateMatrixDto {
+export class ReturnMatrixDto {
   @IsNotEmpty()
   @IsArray()
   classes: string[];
