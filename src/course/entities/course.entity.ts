@@ -1,6 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { Periods } from '../constants/period.constant';
 import { Matrix } from 'src/matrix/entities/matrix.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity()
 export class Course {
@@ -10,7 +17,7 @@ export class Course {
   @Column({ unique: true })
   name: string;
 
-  //TODO: Relacionamento OneToMany TYPEORM, pesquisar
+  @ManyToOne(() => User, (user) => user.id)
   @Column()
   coordinatorId: number;
 

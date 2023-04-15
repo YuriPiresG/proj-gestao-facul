@@ -12,6 +12,7 @@ import { CourseModule } from './course/course.module';
 import { Course } from './course/entities/course.entity';
 import { MatrixModule } from './matrix/matrix.module';
 import { Matrix } from './matrix/entities/matrix.entity';
+import { ClassesModule } from './classes/classes.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { Matrix } from './matrix/entities/matrix.entity';
     AuthModule,
     CourseModule,
     MatrixModule,
+    ClassesModule,
   ],
   controllers: [AppController],
   providers: [

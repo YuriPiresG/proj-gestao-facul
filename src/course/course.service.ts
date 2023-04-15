@@ -5,7 +5,6 @@ import { Course } from './entities/course.entity';
 import { UsersService } from 'src/users/users.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { MatrixService } from 'src/matrix/matrix.service';
 import { UserRole } from 'src/users/constants/user-role.constant';
 
 @Injectable()
@@ -29,27 +28,14 @@ export class CourseService {
   }
 
   findAll() {
-    return this.courseRepository.find();
+    return this.courseRepository.find({ relations: ['coordinatorId'] });
   }
 
-  async searchById(id: number) {
-    return await this.courseRepository.findOne({ where: { id } });
-  }
-
-  //TODO: alterar codigo depois de implementar o relacionamento entre curso e coordenador OneToMany
   async findById(id: number) {
-    const foundCourse = await this.courseRepository.findOne({ where: { id } });
-    const coordInfo = await this.userService.findOne(foundCourse.coordinatorId);
-    const courseCoordRelation = {
-      id: id,
-      name: foundCourse.name,
-      coordinator: coordInfo.name,
-      durationHours: foundCourse.durationHours,
-      quantityClass: foundCourse.quantityClass,
-      quantitySemester: foundCourse.quantitySemester,
-      periods: foundCourse.periods,
-    };
-    return courseCoordRelation;
+    return await this.courseRepository.findOne({
+      where: { id },
+      relations: ['coordinatorId'],
+    });
   }
 
   async update(id: number, updateCourseDto: UpdateCourseDto) {
