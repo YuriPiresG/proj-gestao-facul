@@ -33,6 +33,6 @@ export class Course {
   @Column('simple-array')
   periods: Periods[];
 
-  @OneToMany(() => Matrix, (matrix) => matrix.courseId)
+  @OneToMany(() => Matrix, (matrix) => matrix.course)
   matrices: Matrix[];
 }

@@ -1,11 +1,10 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateMatrixDto } from './dto/create-matrix.dto';
 import { UpdateMatrixDto } from './dto/update-matrix.dto';
 import { Matrix } from './entities/matrix.entity';
 import { CourseService } from 'src/course/course.service';
-import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class MatrixService {
@@ -13,25 +12,38 @@ export class MatrixService {
     @InjectRepository(Matrix)
     private matrixRepository: Repository<Matrix>,
     private courseService: CourseService,
-    private userService: UsersService,
   ) {}
   async create(createMatrixDto: CreateMatrixDto) {
-    return await this.matrixRepository.save(createMatrixDto);
+    const courseFound = await this.courseService.findById(
+      createMatrixDto.courseId,
+    );
+    if (createMatrixDto.semester > courseFound.quantitySemester) {
+      throw new BadRequestException(
+        `Semester is greater than ${courseFound.quantitySemester}`,
+      );
+    }
+    const semesterFound = await this.matrixRepository.findOne({});
+    return await this.matrixRepository.save({
+      skillsDescription: createMatrixDto.skillsDescription,
+      course: { id: createMatrixDto.courseId },
+      classes: createMatrixDto.classes.map((id) => ({ id })),
+      semester: createMatrixDto.semester,
+    });
   }
 
   findAll() {
-    return this.matrixRepository.find({ relations: ['courseId'] });
+    return this.matrixRepository.find({ relations: ['classes'] });
   }
 
   async findOne(id: number) {
     return this.matrixRepository.findOne({
       where: { id },
-      relations: ['courseId'],
+      relations: ['course'],
     });
   }
 
   update(id: number, updateMatrixDto: UpdateMatrixDto) {
-    return this.matrixRepository.save({ id, ...updateMatrixDto });
+    // return this.matrixRepository.save({ id, ...updateMatrixDto });
   }
 
   remove(id: number) {

@@ -1,5 +1,13 @@
 import { Course } from 'src/course/entities/course.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Class } from 'src/classes/entities/class.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 
 @Entity()
 export class Matrix {
@@ -7,11 +15,15 @@ export class Matrix {
   id: number;
 
   @ManyToOne(() => Course, (course) => course.matrices)
-  courseId: Course;
+  course: Course;
 
-  @Column('simple-array')
-  classes: string[];
+  @ManyToMany(() => Class)
+  @JoinTable()
+  classes: Class[];
 
   @Column('simple-array')
   skillsDescription: string[];
+
+  @Column('smallint')
+  semester: number;
 }

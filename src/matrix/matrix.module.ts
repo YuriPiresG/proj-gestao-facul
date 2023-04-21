@@ -5,9 +5,10 @@ import { Matrix } from './entities/matrix.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from 'src/users/users.module';
 import { CourseModule } from 'src/course/course.module';
+import { ClassesModule } from 'src/classes/classes.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Matrix]), UsersModule, CourseModule],
+  imports: [TypeOrmModule.forFeature([Matrix]), CourseModule, ClassesModule],
   controllers: [MatrixController],
   providers: [MatrixService],
   exports: [MatrixService],
