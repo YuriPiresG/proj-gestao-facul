@@ -12,8 +12,8 @@ import { CourseModule } from './course/course.module';
 import { Course } from './course/entities/course.entity';
 import { MatrixModule } from './matrix/matrix.module';
 import { Matrix } from './matrix/entities/matrix.entity';
-import { ClassesModule } from './classes/classes.module';
-import { Class } from './classes/entities/class.entity';
+import { SubjectsModule } from './subject/subjects.module';
+import { Subject } from './subject/entities/subject.entity';
 
 @Module({
   imports: [
@@ -24,14 +24,14 @@ import { Class } from './classes/entities/class.entity';
       username: 'postgres',
       password: 'admin123',
       database: 'gestao_facul',
-      entities: [User, Course, Matrix, Class],
+      entities: [User, Course, Matrix, Subject],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
     CourseModule,
     MatrixModule,
-    ClassesModule,
+    SubjectsModule,
   ],
   controllers: [AppController],
   providers: [
