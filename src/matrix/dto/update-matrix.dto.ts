@@ -1,16 +1,22 @@
-import { IsArray, IsNotEmpty, IsNumber } from 'class-validator';
-import { Course } from 'src/course/entities/course.entity';
+import { IsArray, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
 
 export class UpdateMatrixDto {
   @IsNotEmpty()
   @IsArray()
-  subjects: string[];
+  @IsNumber({}, { each: true })
+  subjects: number[];
 
   @IsNotEmpty()
   @IsArray()
+  @IsString({ each: true })
   skillsDescription: string[];
 
   @IsNotEmpty()
   @IsNumber()
-  courseId: Course;
+  courseId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(1)
+  semester: number;
 }
