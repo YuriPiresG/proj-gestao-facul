@@ -1,5 +1,5 @@
 import { Course } from 'src/course/entities/course.entity';
-import { Class } from 'src/classes/entities/class.entity';
+import { Subject } from 'src/subject/entities/subject.entity';
 import {
   Entity,
   Column,
@@ -17,9 +17,9 @@ export class Matrix {
   @ManyToOne(() => Course, (course) => course.matrices)
   course: Course;
 
-  @ManyToMany(() => Class)
+  @ManyToMany(() => Subject)
   @JoinTable()
-  classes: Class[];
+  subjects: Subject[];
 
   @Column('simple-array')
   skillsDescription: string[];

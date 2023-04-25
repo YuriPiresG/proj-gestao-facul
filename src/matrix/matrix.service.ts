@@ -26,13 +26,13 @@ export class MatrixService {
     return await this.matrixRepository.save({
       skillsDescription: createMatrixDto.skillsDescription,
       course: { id: createMatrixDto.courseId },
-      classes: createMatrixDto.classes.map((id) => ({ id })),
+      subjects: createMatrixDto.subjects.map((id) => ({ id })),
       semester: createMatrixDto.semester,
     });
   }
 
   findAll() {
-    return this.matrixRepository.find({ relations: ['classes'] });
+    return this.matrixRepository.find({ relations: ['subjects'] });
   }
 
   async findOne(id: number) {

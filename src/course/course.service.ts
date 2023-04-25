@@ -34,7 +34,7 @@ export class CourseService {
   async findById(id: number) {
     return await this.courseRepository.findOne({
       where: { id },
-      relations: ['coordinatorId', 'matrices', 'matrices.classes'],
+      relations: ['coordinatorId', 'matrices', 'matrices.subjects'],
     });
   }
 

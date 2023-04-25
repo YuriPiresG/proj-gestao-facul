@@ -4,7 +4,7 @@ export class CreateMatrixDto {
   @IsNotEmpty()
   @IsArray()
   @IsNumber({}, { each: true })
-  classes: number[];
+  subjects: number[];
 
   @IsNotEmpty()
   @IsArray()

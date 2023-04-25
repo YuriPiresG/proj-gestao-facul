@@ -16,7 +16,7 @@ export class SubjectsService {
   }
 
   findAll() {
-    return `This action returns all classes`;
+    return `This action returns all subjects`;
   }
 
   findOne(id: number) {

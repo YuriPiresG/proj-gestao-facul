@@ -4,7 +4,7 @@ import { Course } from 'src/course/entities/course.entity';
 export class UpdateMatrixDto {
   @IsNotEmpty()
   @IsArray()
-  classes: string[];
+  subjects: string[];
 
   @IsNotEmpty()
   @IsArray()
