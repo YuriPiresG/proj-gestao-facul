@@ -16,7 +16,7 @@ export class SubjectsService {
   }
 
   findAll() {
-    return `This action returns all subjects`;
+    return this.subjectRepository.find();
   }
 
   findOne(id: number) {

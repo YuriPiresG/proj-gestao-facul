@@ -22,7 +22,13 @@ export class MatrixService {
         `Semester is greater than ${courseFound.quantitySemester}`,
       );
     }
-    const semesterFound = await this.matrixRepository.findOne({});
+    if (
+      courseFound.matrices.find((m) => m.semester === createMatrixDto.semester)
+    ) {
+      throw new BadRequestException(
+        `Semester ${createMatrixDto.semester} already exists in ${courseFound.name}}`,
+      );
+    }
     return await this.matrixRepository.save({
       skillsDescription: createMatrixDto.skillsDescription,
       course: { id: createMatrixDto.courseId },
