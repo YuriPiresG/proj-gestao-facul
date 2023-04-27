@@ -1,10 +1,19 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+
+interface FindOneOptions {
+  id?: number;
+  username?: string;
+}
 
 @Injectable()
 export class UsersService {
@@ -27,15 +36,21 @@ export class UsersService {
   }
 
   async findByUsername(username: string): Promise<User> {
-    return this.usersRepository.findOne({ where: { username } });
+    return this.findOne({ username });
   }
 
   findAll() {
     return this.usersRepository.find();
   }
 
-  findOne(id: number) {
-    return this.usersRepository.findOne({ where: { id } });
+  async findOne({ id, username }: FindOneOptions): Promise<User> {
+    const userValue = await this.usersRepository.findOne({
+      where: { id, username },
+    });
+    if (userValue === null) {
+      throw new NotFoundException('User not found');
+    }
+    return userValue;
   }
 
   // TODO: Ver com o Melo, está dando erro de Unique. Não está dando replace no banco de dados.

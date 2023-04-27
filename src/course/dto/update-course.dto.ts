@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateCourseDto } from './create-course.dto';
-import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsEnum } from 'class-validator';
+import { Periods } from '../constants/period.constant';
 
 export class UpdateCourseDto extends PartialType(CreateCourseDto) {
   @IsNotEmpty()
@@ -22,4 +23,7 @@ export class UpdateCourseDto extends PartialType(CreateCourseDto) {
   @IsNotEmpty()
   @IsNumber()
   quantitySemester: number;
+
+  @IsEnum(Periods, { each: true })
+  periods: Periods[];
 }

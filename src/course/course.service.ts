@@ -15,9 +15,9 @@ export class CourseService {
     private userService: UsersService,
   ) {}
   async create(createCourseDto: CreateCourseDto) {
-    const userCoordinator = await this.userService.findOne(
-      createCourseDto.coordinatorId,
-    );
+    const userCoordinator = await this.userService.findOne({
+      id: createCourseDto.coordinatorId,
+    });
     if (
       userCoordinator.role !== UserRole.ADMIN &&
       userCoordinator.role !== UserRole.COORDINATOR
@@ -39,9 +39,9 @@ export class CourseService {
   }
 
   async update(id: number, updateCourseDto: UpdateCourseDto) {
-    const isCoordinator = await this.userService.findOne(
-      updateCourseDto.coordinatorId,
-    );
+    const isCoordinator = await this.userService.findOne({
+      id: updateCourseDto.coordinatorId,
+    });
     if (
       isCoordinator.role !== UserRole.ADMIN &&
       isCoordinator.role !== UserRole.COORDINATOR

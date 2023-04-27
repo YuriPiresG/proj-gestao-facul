@@ -5,6 +5,7 @@ import { CreateMatrixDto } from './dto/create-matrix.dto';
 import { UpdateMatrixDto } from './dto/update-matrix.dto';
 import { Matrix } from './entities/matrix.entity';
 import { CourseService } from 'src/course/course.service';
+import { Course } from 'src/course/entities/course.entity';
 
 @Injectable()
 export class MatrixService {
@@ -14,9 +15,9 @@ export class MatrixService {
     private courseService: CourseService,
   ) {}
   async create(createMatrixDto: CreateMatrixDto) {
-    const courseFound = await this.courseService.findById(
+    const courseFound = (await this.courseService.findById(
       createMatrixDto.courseId,
-    );
+    )) as Course;
     if (createMatrixDto.semester > courseFound.quantitySemester) {
       throw new BadRequestException(
         `Semester is greater than ${courseFound.quantitySemester}`,
@@ -41,18 +42,30 @@ export class MatrixService {
     return this.matrixRepository.find({ relations: ['subjects'] });
   }
 
-  async findOne(id: number) {
+  async findOne(id: number, courseId?: number) {
     return this.matrixRepository.findOne({
       where: { id },
-      relations: ['course'],
+      relations: ['course', 'subjects'],
     });
   }
 
-  update(id: number, updateMatrixDto: UpdateMatrixDto) {
-    // return this.matrixRepository.save({ id, ...updateMatrixDto });
+  //TODO Não deixar uma matriz com dois semestres iguais
+  async update(id: number, updateMatrixDto: UpdateMatrixDto) {
+    const course = updateMatrixDto.courseId
+      ? { id: updateMatrixDto.courseId }
+      : undefined;
+
+    const testeTemp = await this.matrixRepository.save({
+      course,
+      id,
+      semester: updateMatrixDto.semester,
+      skillsDescription: updateMatrixDto.skillsDescription,
+      subjects: updateMatrixDto.subjects?.map((id) => ({ id })),
+    });
+    return testeTemp;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} matrix`;
+    return this.matrixRepository.delete(id);
   }
 }
