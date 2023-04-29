@@ -14,6 +14,7 @@ import { MatrixModule } from './matrix/matrix.module';
 import { Matrix } from './matrix/entities/matrix.entity';
 import { SubjectsModule } from './subject/subjects.module';
 import { Subject } from './subject/entities/subject.entity';
+import { ProfessorModule } from './professor/professor.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { Subject } from './subject/entities/subject.entity';
     CourseModule,
     MatrixModule,
     SubjectsModule,
+    ProfessorModule,
   ],
   controllers: [AppController],
   providers: [
