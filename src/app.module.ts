@@ -16,6 +16,8 @@ import { SubjectsModule } from './subject/subjects.module';
 import { Subject } from './subject/entities/subject.entity';
 import { ProfessorModule } from './professor/professor.module';
 import { Professor } from './professor/entities/professor.entity';
+import { CalendarModule } from './calendar/calendar.module';
+import { CalendarDayModule } from './calendar-day/calendar-day.module';
 
 @Module({
   imports: [
@@ -35,6 +37,8 @@ import { Professor } from './professor/entities/professor.entity';
     MatrixModule,
     SubjectsModule,
     ProfessorModule,
+    CalendarModule,
+    CalendarDayModule,
   ],
   controllers: [AppController],
   providers: [
