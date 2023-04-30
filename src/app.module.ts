@@ -15,6 +15,7 @@ import { Matrix } from './matrix/entities/matrix.entity';
 import { SubjectsModule } from './subject/subjects.module';
 import { Subject } from './subject/entities/subject.entity';
 import { ProfessorModule } from './professor/professor.module';
+import { Professor } from './professor/entities/professor.entity';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { ProfessorModule } from './professor/professor.module';
       username: 'postgres',
       password: 'admin123',
       database: 'gestao_facul',
-      entities: [User, Course, Matrix, Subject],
+      entities: [User, Course, Matrix, Subject, Professor],
       synchronize: true,
     }),
     UsersModule,

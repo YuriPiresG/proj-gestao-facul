@@ -1,26 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UsersService } from 'src/users/users.service';
+import { Repository } from 'typeorm';
 import { CreateProfessorDto } from './dto/create-professor.dto';
 import { UpdateProfessorDto } from './dto/update-professor.dto';
+import { Professor } from './entities/professor.entity';
 
 @Injectable()
 export class ProfessorService {
-  create(createProfessorDto: CreateProfessorDto) {
-    return 'This action adds a new professor';
+  constructor(
+    @InjectRepository(Professor)
+    private professorRepository: Repository<Professor>,
+    private userService: UsersService,
+  ) {}
+  async create(createProfessorDto: CreateProfessorDto) {
+    const userFound = await this.userService.findOne({
+      id: createProfessorDto.userId,
+    });
+    if (userFound.role !== 3) {
+      throw new BadRequestException('User is not a professor');
+    }
+    const professor = new Professor();
+    professor.user = userFound;
+    professor.periods = createProfessorDto.periods;
+
+    return await this.professorRepository.save(professor);
+    //TODO ver com o Melo pq o codigo abaixo salvava user como NUll antes
+    // return await this.professorRepository.save({
+    //   userId: createProfessorDto.userId,
+    //   periods: createProfessorDto.periods,
+    // });
   }
 
   findAll() {
-    return `This action returns all professor`;
+    return this.professorRepository.find({ relations: ['user'] });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} professor`;
+    return this.professorRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
   }
 
   update(id: number, updateProfessorDto: UpdateProfessorDto) {
-    return `This action updates a #${id} professor`;
+    const professorUpdated = this.professorRepository.save({
+      id,
+      periods: updateProfessorDto.periods,
+    });
+    return professorUpdated;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} professor`;
+    this.professorRepository.delete(id);
+    return `Professor #${id} was successfully deleted`;
   }
 }

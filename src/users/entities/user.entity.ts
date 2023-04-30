@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
 import { UserRole } from '../constants/user-role.constant';
+import { Professor } from 'src/professor/entities/professor.entity';
 
 @Entity()
 export class User {
@@ -21,6 +22,9 @@ export class User {
   @Column()
   role: UserRole;
 
-  // @Column({ nullable: true })
-  // deletedAt: Date;
+  @OneToOne(() => Professor, (professor) => professor.user)
+  professor: Professor;
 }
+
+// @Column({ nullable: true })
+// deletedAt: Date;

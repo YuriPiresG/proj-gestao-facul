@@ -55,14 +55,14 @@ export class MatrixService {
       ? { id: updateMatrixDto.courseId }
       : undefined;
 
-    const testeTemp = await this.matrixRepository.save({
+    const matrixUpdated = await this.matrixRepository.save({
       course,
       id,
       semester: updateMatrixDto.semester,
       skillsDescription: updateMatrixDto.skillsDescription,
       subjects: updateMatrixDto.subjects?.map((id) => ({ id })),
     });
-    return testeTemp;
+    return matrixUpdated;
   }
 
   remove(id: number) {
