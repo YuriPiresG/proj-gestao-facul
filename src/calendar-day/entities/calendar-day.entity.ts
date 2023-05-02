@@ -24,9 +24,9 @@ export class CalendarDay {
   @JoinColumn()
   calendarId: Calendar;
 
-  @ManyToOne(() => Subject, (subject) => subject.id)
-  @Column()
-  subject: number;
+  @ManyToOne(() => Subject, (subject) => subject.calendarDays)
+  @JoinColumn()
+  subject: Subject;
 
   @Column('simple-array')
   period: Periods[];
