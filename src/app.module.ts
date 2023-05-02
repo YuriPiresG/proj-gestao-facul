@@ -18,6 +18,8 @@ import { ProfessorModule } from './professor/professor.module';
 import { Professor } from './professor/entities/professor.entity';
 import { CalendarModule } from './calendar/calendar.module';
 import { CalendarDayModule } from './calendar-day/calendar-day.module';
+import { Calendar } from './calendar/entities/calendar.entity';
+import { CalendarDay } from './calendar-day/entities/calendar-day.entity';
 
 @Module({
   imports: [
@@ -28,7 +30,15 @@ import { CalendarDayModule } from './calendar-day/calendar-day.module';
       username: 'postgres',
       password: 'admin123',
       database: 'gestao_facul',
-      entities: [User, Course, Matrix, Subject, Professor],
+      entities: [
+        User,
+        Course,
+        Matrix,
+        Subject,
+        Professor,
+        Calendar,
+        CalendarDay,
+      ],
       synchronize: true,
     }),
     UsersModule,

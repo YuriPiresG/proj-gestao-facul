@@ -15,9 +15,14 @@ export class MatrixService {
     private courseService: CourseService,
   ) {}
   async create(createMatrixDto: CreateMatrixDto) {
-    const courseFound = (await this.courseService.findById(
-      createMatrixDto.courseId,
-    )) as Course;
+    const courseFound = await this.courseService.findById({
+      id: createMatrixDto.courseId,
+    });
+    if (!courseFound) {
+      throw new BadRequestException(
+        `Course ${createMatrixDto.courseId} not found`,
+      );
+    }
     if (createMatrixDto.semester > courseFound.quantitySemester) {
       throw new BadRequestException(
         `Semester is greater than ${courseFound.quantitySemester}`,

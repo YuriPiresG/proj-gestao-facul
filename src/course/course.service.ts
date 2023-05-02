@@ -7,6 +7,11 @@ import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { UserRole } from 'src/users/constants/user-role.constant';
 
+interface FindOneOptions {
+  id?: number;
+  username?: string;
+}
+
 @Injectable()
 export class CourseService {
   constructor(
@@ -31,7 +36,7 @@ export class CourseService {
     return this.courseRepository.find({ relations: ['coordinatorId'] });
   }
 
-  async findById(id: number) {
+  async findById({ id }: FindOneOptions) {
     return await this.courseRepository.findOne({
       where: { id },
       relations: ['coordinatorId', 'matrices', 'matrices.subjects'],
