@@ -44,11 +44,23 @@ export class CalendarService {
     });
   }
 
-  update(id: number, updateCalendarDto: UpdateCalendarDto) {
-    return `This action updates a #${id} calendar`;
+  async update(id: number, updateCalendarDto: UpdateCalendarDto) {
+    const courseFound = await this.courseService.findById({
+      id: updateCalendarDto.course,
+    });
+    if (!courseFound) {
+      throw new BadRequestException('Course not found');
+    }
+    const updatedCalendar = new Calendar();
+    updatedCalendar.course = courseFound;
+    updatedCalendar.semester = updateCalendarDto.semester;
+    updatedCalendar.isActive = updateCalendarDto.isActive;
+    this.calendarRepository.update({ id }, updatedCalendar);
+
+    return `Calendar updated to ${JSON.stringify(updatedCalendar)}`;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} calendar`;
+    return this.calendarRepository.delete({ id });
   }
 }

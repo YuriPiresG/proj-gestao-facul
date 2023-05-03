@@ -58,11 +58,36 @@ export class CalendarDayService {
     });
   }
 
-  update(id: number, updateCalendarDayDto: UpdateCalendarDayDto) {
-    return `This action updates a #${id} calendarDay`;
+  async update(id: number, updateCalendarDayDto: UpdateCalendarDayDto) {
+    const calendarFound = await this.calendarService.findOne(
+      updateCalendarDayDto.calendarId,
+    );
+    if (!calendarFound) {
+      throw new BadRequestException('Calendar not found');
+    }
+    const professorFound = await this.professorService.findOne(
+      updateCalendarDayDto.professor,
+    );
+    if (!professorFound) {
+      throw new BadRequestException('Professor not found');
+    }
+    const subjectFound = await this.subjectsService.findOne(
+      updateCalendarDayDto.subject,
+    );
+    if (!subjectFound) {
+      throw new BadRequestException('Subject not found');
+    }
+    const updatedCalendarDay = new CalendarDay();
+    updatedCalendarDay.dayOfTheWeek = updateCalendarDayDto.dayOfTheWeek;
+    updatedCalendarDay.calendarId = calendarFound;
+    updatedCalendarDay.subject = subjectFound;
+    updatedCalendarDay.professor = professorFound;
+    updatedCalendarDay.period = updateCalendarDayDto.period;
+    this.calendarDayRepository.update({ id }, updatedCalendarDay);
+    return `CalendarDay updated to ${JSON.stringify(updatedCalendarDay)}`;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} calendarDay`;
+    return this.calendarDayRepository.delete(id);
   }
 }

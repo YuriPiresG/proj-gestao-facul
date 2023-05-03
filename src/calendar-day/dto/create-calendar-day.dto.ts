@@ -1,12 +1,6 @@
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsEnum,
-  IsArray,
-} from 'class-validator';
-import { DayOfTheWeek } from '../constants/dayOfTheWeek.constant';
+import { IsArray, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
 import { Periods } from 'src/course/constants/period.constant';
+import { DayOfTheWeek } from '../constants/dayOfTheWeek.constant';
 
 export class CreateCalendarDayDto {
   @IsNotEmpty()

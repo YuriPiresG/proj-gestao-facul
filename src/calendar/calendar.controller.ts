@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { CalendarService } from './calendar.service';
 import { CreateCalendarDto } from './dto/create-calendar.dto';
 import { UpdateCalendarDto } from './dto/update-calendar.dto';
@@ -22,7 +30,7 @@ export class CalendarController {
     return this.calendarService.findOne(+id);
   }
 
-  @Post(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updateCalendarDto: UpdateCalendarDto,
