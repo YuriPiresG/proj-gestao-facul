@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
@@ -11,10 +16,11 @@ export class ProfessorService {
   constructor(
     @InjectRepository(Professor)
     private professorRepository: Repository<Professor>,
-    private userService: UsersService,
+    @Inject(forwardRef(() => UsersService))
+    private usersService: UsersService,
   ) {}
   async create(createProfessorDto: CreateProfessorDto) {
-    const userFound = await this.userService.findOne({
+    const userFound = await this.usersService.findOne({
       id: createProfessorDto.userId,
     });
     if (userFound.role !== 3) {
@@ -40,6 +46,11 @@ export class ProfessorService {
     return this.professorRepository.findOne({
       where: { id },
       relations: ['user'],
+    });
+  }
+  async findByUserId(userId: number): Promise<Professor | null> {
+    return this.professorRepository.findOne({
+      where: { user: { id: userId } },
     });
   }
 

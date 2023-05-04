@@ -2,13 +2,16 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import { ProfessorService } from 'src/professor/professor.service';
 
 interface FindOneOptions {
   id?: number;
@@ -18,6 +21,8 @@ interface FindOneOptions {
 @Injectable()
 export class UsersService {
   constructor(
+    @Inject(forwardRef(() => ProfessorService))
+    private professorService: ProfessorService,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
   ) {}
@@ -67,7 +72,12 @@ export class UsersService {
     return await this.usersRepository.update(id, updateUserDto);
   }
 
-  remove(id: number) {
+  //TODO Ver com o Melo como evitar uma circular dependency entre User e Professor. Pois o professorService tem um usersService e o usersService tem um professorService.
+  async remove(id: number) {
+    const professorFound = await this.professorService.findByUserId(id);
+    if (professorFound !== null) {
+      await this.professorService.remove(professorFound.id);
+    }
     return this.usersRepository.delete(id);
   }
 }

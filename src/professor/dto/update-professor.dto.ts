@@ -5,5 +5,5 @@ import { Periods } from 'src/course/constants/period.constant';
 
 export class UpdateProfessorDto extends PartialType(CreateProfessorDto) {
   @IsEnum(Periods, { each: true })
-  periods?: Periods[];
+  periods: Periods[];
 }

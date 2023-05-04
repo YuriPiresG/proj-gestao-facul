@@ -1,12 +1,15 @@
-import { Module } from '@nestjs/common';
-import { ProfessorService } from './professor.service';
-import { ProfessorController } from './professor.controller';
-import { Professor } from './entities/professor.entity';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Professor } from './entities/professor.entity';
+import { ProfessorController } from './professor.controller';
+import { ProfessorService } from './professor.service';
 import { UsersModule } from 'src/users/users.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Professor]), UsersModule],
+  imports: [
+    TypeOrmModule.forFeature([Professor]),
+    forwardRef(() => UsersModule),
+  ],
   controllers: [ProfessorController],
   providers: [ProfessorService],
   exports: [ProfessorService],

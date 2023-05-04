@@ -24,10 +24,10 @@ export class SubjectsService {
   }
 
   update(id: number, UpdateSubjectDto: UpdateSubjectDto) {
-    return `This action updates a #${id} class`;
+    return this.subjectRepository.save({ ...UpdateSubjectDto, id });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} class`;
+    return this.subjectRepository.delete({ id });
   }
 }
