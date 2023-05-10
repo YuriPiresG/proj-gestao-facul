@@ -18,7 +18,7 @@ export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
   @Post()
-  @Roles(UserRole.COORDINATOR, UserRole.ADMIN)
+  @Roles(UserRole.DIRECTOR, UserRole.ADMIN)
   create(@Body() createCourseDto: CreateCourseDto) {
     return this.courseService.create(createCourseDto);
   }
@@ -34,13 +34,13 @@ export class CourseController {
   }
 
   @Put(':id')
-  @Roles(UserRole.COORDINATOR, UserRole.ADMIN)
+  @Roles(UserRole.DIRECTOR, UserRole.ADMIN)
   update(@Param('id') id: number, @Body() updateCourseDto: UpdateCourseDto) {
     return this.courseService.update(id, updateCourseDto);
   }
 
   @Delete(':id')
-  @Roles(UserRole.COORDINATOR, UserRole.ADMIN)
+  @Roles(UserRole.DIRECTOR, UserRole.ADMIN)
   remove(@Param('id') id: number) {
     // TODO: Mudar isso para um http 204 No content
     return 'Course deleted';
