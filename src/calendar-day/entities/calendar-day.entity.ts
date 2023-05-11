@@ -1,16 +1,17 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
-  JoinColumn,
-  ManyToOne,
-} from 'typeorm';
-import { DayOfTheWeek } from '../constants/dayOfTheWeek.constant';
+import { Calendar } from 'src/calendar/entities/calendar.entity';
 import { Periods } from 'src/course/constants/period.constant';
 import { Professor } from 'src/professor/entities/professor.entity';
-import { Calendar } from 'src/calendar/entities/calendar.entity';
 import { Subject } from 'src/subject/entities/subject.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { DayOfTheWeek } from '../constants/dayOfTheWeek.constant';
 
 @Entity()
 export class CalendarDay {
@@ -20,9 +21,8 @@ export class CalendarDay {
   @Column()
   dayOfTheWeek: DayOfTheWeek;
 
-  @OneToOne(() => Calendar)
-  @JoinColumn()
-  calendarId: Calendar;
+  @ManyToOne(() => Calendar, (calendar) => calendar.calendarDays)
+  calendar: Calendar;
 
   @ManyToOne(() => Subject, (subject) => subject.calendarDays)
   @JoinColumn()
@@ -31,7 +31,7 @@ export class CalendarDay {
   @Column('simple-array')
   period: Periods[];
 
-  @OneToOne(() => Professor)
-  @JoinColumn()
-  professor: Professor;
+  @ManyToMany(() => Professor)
+  @JoinTable()
+  professor: Professor[];
 }

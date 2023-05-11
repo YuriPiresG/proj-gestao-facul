@@ -7,6 +7,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProfessorService } from 'src/professor/professor.service';
 import { SubjectsService } from 'src/subject/subjects.service';
 import { CalendarService } from 'src/calendar/calendar.service';
+import { Calendar } from 'src/calendar/entities/calendar.entity';
+import { Subject } from 'src/subject/entities/subject.entity';
+import { Professor } from 'src/professor/entities/professor.entity';
 
 @Injectable()
 export class CalendarDayService {
@@ -24,23 +27,19 @@ export class CalendarDayService {
     if (!calendarFound) {
       throw new BadRequestException('Calendar not found');
     }
-    const professorFound = await this.professorService.findOne(
-      createCalendarDayDto.professor,
-    );
-    if (!professorFound) {
-      throw new BadRequestException('Professor not found');
-    }
     const subjectFound = await this.subjectsService.findOne(
       createCalendarDayDto.subject,
     );
     if (!subjectFound) {
       throw new BadRequestException('Subject not found');
     }
-    const calendarDay = new CalendarDay();
+    const calendarDay = this.calendarDayRepository.create();
     calendarDay.dayOfTheWeek = createCalendarDayDto.dayOfTheWeek;
-    calendarDay.calendarId = calendarFound;
-    calendarDay.subject = subjectFound;
-    calendarDay.professor = professorFound;
+    calendarDay.calendar = { id: createCalendarDayDto.calendarId } as Calendar;
+    calendarDay.subject = { id: createCalendarDayDto.subject } as Subject;
+    calendarDay.professor = createCalendarDayDto.professor.map(
+      (professor) => ({ id: professor } as Professor),
+    );
     calendarDay.period = createCalendarDayDto.period;
     return this.calendarDayRepository.save(calendarDay);
   }
@@ -65,12 +64,6 @@ export class CalendarDayService {
     if (!calendarFound) {
       throw new BadRequestException('Calendar not found');
     }
-    const professorFound = await this.professorService.findOne(
-      updateCalendarDayDto.professor,
-    );
-    if (!professorFound) {
-      throw new BadRequestException('Professor not found');
-    }
     const subjectFound = await this.subjectsService.findOne(
       updateCalendarDayDto.subject,
     );
@@ -79,9 +72,11 @@ export class CalendarDayService {
     }
     const updatedCalendarDay = new CalendarDay();
     updatedCalendarDay.dayOfTheWeek = updateCalendarDayDto.dayOfTheWeek;
-    updatedCalendarDay.calendarId = calendarFound;
+    updatedCalendarDay.calendar = calendarFound;
     updatedCalendarDay.subject = subjectFound;
-    updatedCalendarDay.professor = professorFound;
+    updatedCalendarDay.professor = updateCalendarDayDto.professor.map(
+      (professor) => ({ id: professor } as Professor),
+    );
     updatedCalendarDay.period = updateCalendarDayDto.period;
     this.calendarDayRepository.update({ id }, updatedCalendarDay);
     return `CalendarDay updated to ${JSON.stringify(updatedCalendarDay)}`;

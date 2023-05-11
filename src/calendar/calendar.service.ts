@@ -40,7 +40,13 @@ export class CalendarService {
   findOne(id: number) {
     return this.calendarRepository.findOne({
       where: { id },
-      relations: ['course'],
+      relations: [
+        'course',
+        'calendarDays',
+        'calendarDays.subject',
+        'calendarDays.professor',
+        'calendarDays.professor.user',
+      ],
     });
   }
 

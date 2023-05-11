@@ -21,6 +21,7 @@ export class CreateCalendarDayDto {
   period: Periods[];
 
   @IsNotEmpty()
-  @IsNumber()
-  professor: number;
+  @IsArray()
+  @IsNumber({}, { each: true })
+  professor: number[];
 }

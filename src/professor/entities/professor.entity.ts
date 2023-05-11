@@ -1,3 +1,4 @@
+import { CalendarDay } from 'src/calendar-day/entities/calendar-day.entity';
 import { Periods } from 'src/course/constants/period.constant';
 import { User } from 'src/users/entities/user.entity';
 import {
@@ -6,6 +7,8 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity()
