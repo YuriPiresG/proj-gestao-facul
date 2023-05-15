@@ -1,17 +1,22 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CourseService } from 'src/course/course.service';
 import { Repository } from 'typeorm';
 import { CreateMatrixDto } from './dto/create-matrix.dto';
 import { UpdateMatrixDto } from './dto/update-matrix.dto';
 import { Matrix } from './entities/matrix.entity';
-import { CourseService } from 'src/course/course.service';
-import { Course } from 'src/course/entities/course.entity';
 
 @Injectable()
 export class MatrixService {
   constructor(
     @InjectRepository(Matrix)
     private matrixRepository: Repository<Matrix>,
+    @Inject(forwardRef(() => CourseService))
     private courseService: CourseService,
   ) {}
   async create(createMatrixDto: CreateMatrixDto) {
@@ -51,6 +56,11 @@ export class MatrixService {
     return this.matrixRepository.findOne({
       where: { id },
       relations: ['course', 'subjects'],
+    });
+  }
+  async findOneByCourseId(courseId: number) {
+    return this.matrixRepository.findOne({
+      where: { course: { id: courseId } },
     });
   }
 

@@ -72,7 +72,6 @@ export class UsersService {
     return await this.usersRepository.update(id, updateUserDto);
   }
 
-  //TODO Ver com o Melo como evitar uma circular dependency entre User e Professor. Pois o professorService tem um usersService e o usersService tem um professorService.
   async remove(id: number) {
     const professorFound = await this.professorService.findByUserId(id);
     if (professorFound !== null) {

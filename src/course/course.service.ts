@@ -1,4 +1,9 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from './entities/course.entity';
@@ -6,6 +11,7 @@ import { UsersService } from 'src/users/users.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { UserRole } from 'src/users/constants/user-role.constant';
+import { MatrixService } from 'src/matrix/matrix.service';
 
 interface FindOneOptions {
   id?: number;
@@ -15,6 +21,8 @@ interface FindOneOptions {
 @Injectable()
 export class CourseService {
   constructor(
+    @Inject(forwardRef(() => MatrixService))
+    private matrixService: MatrixService,
     @InjectRepository(Course)
     private courseRepository: Repository<Course>,
     private userService: UsersService,
@@ -56,7 +64,11 @@ export class CourseService {
     return this.courseRepository.save({ ...updateCourseDto, id });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    const matrixFound = await this.matrixService.findOneByCourseId(id);
+    if (matrixFound !== null) {
+      await this.matrixService.remove(matrixFound.id);
+    }
     return this.courseRepository.delete(id);
   }
 }
