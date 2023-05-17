@@ -46,14 +46,14 @@ export class CalendarDayService {
 
   findAll() {
     return this.calendarDayRepository.find({
-      relations: ['calendarId', 'subject', 'professor'],
+      relations: ['calendar', 'subject', 'professor'],
     });
   }
 
   findOne(id: number) {
     return this.calendarDayRepository.findOne({
       where: { id },
-      relations: ['calendarId', 'calendarId.course', 'subject', 'professor'],
+      relations: ['calendar', 'calendarId.course', 'subject', 'professor'],
     });
   }
 
