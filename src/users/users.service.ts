@@ -33,7 +33,7 @@ export class UsersService {
     });
 
     if (userWithSameEmail !== null) {
-      throw new ConflictException('Email already exists');
+      throw new ConflictException('Email já cadastrado');
     }
     const hashPass = await bcrypt.hash(createUserDto.password, 10);
     createUserDto.password = hashPass;
@@ -65,7 +65,7 @@ export class UsersService {
     });
 
     if (userWithSameEmail !== null) {
-      throw new ConflictException('Email already exists');
+      throw new ConflictException('Email já cadastrado');
     }
     const hashPass = await bcrypt.hash(updateUserDto.password, 10);
     updateUserDto.password = hashPass;
