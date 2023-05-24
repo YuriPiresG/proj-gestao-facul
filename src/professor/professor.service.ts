@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { CreateProfessorDto } from './dto/create-professor.dto';
 import { UpdateProfessorDto } from './dto/update-professor.dto';
 import { Professor } from './entities/professor.entity';
+import { UserRole } from 'src/users/constants/user-role.constant';
 
 @Injectable()
 export class ProfessorService {
@@ -23,11 +24,18 @@ export class ProfessorService {
     const userFound = await this.usersService.findOne({
       id: createProfessorDto.userId,
     });
-    if (userFound.role !== 3) {
-      throw new BadRequestException('User is not a professor');
-    }
     const professor = new Professor();
     professor.user = userFound;
+    const updatedRole = await this.usersService.update(
+      createProfessorDto.userId,
+      {
+        username: userFound.username,
+        name: userFound.name,
+        role: UserRole.PROFESSOR,
+        email: userFound.email,
+        password: userFound.password,
+      },
+    );
     professor.periods = createProfessorDto.periods;
 
     return await this.professorRepository.save(professor);

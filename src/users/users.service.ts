@@ -60,13 +60,6 @@ export class UsersService {
 
   // TODO: Ver com o Melo, está dando erro de Unique. Não está dando replace no banco de dados.
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const userWithSameEmail = await this.usersRepository.findOneBy({
-      email: updateUserDto.email,
-    });
-
-    if (userWithSameEmail !== null) {
-      throw new ConflictException('Email já cadastrado');
-    }
     const hashPass = await bcrypt.hash(updateUserDto.password, 10);
     updateUserDto.password = hashPass;
     return await this.usersRepository.update(id, updateUserDto);
