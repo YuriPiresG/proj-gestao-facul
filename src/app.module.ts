@@ -25,11 +25,7 @@ import { CalendarDay } from './calendar-day/entities/calendar-day.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'admin123',
-      database: 'gestao_facul',
+      url: 'postgresql://postgres:fNGyDxO4vdXyyKBjpOfc@containers-us-west-78.railway.app:5878/railway',
       entities: [
         User,
         Course,
