@@ -35,6 +35,7 @@ export class CalendarDayController {
     @Param('id') id: string,
     @Body() updateCalendarDayDto: UpdateCalendarDayDto,
   ) {
+    console.log(updateCalendarDayDto);
     return this.calendarDayService.update(+id, updateCalendarDayDto);
   }
 

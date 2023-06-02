@@ -20,6 +20,6 @@ export class UpdateCalendarDayDto extends PartialType(CreateCalendarDayDto) {
 
   @IsNotEmpty()
   @IsArray()
-  @IsNumber()
+  @IsNumber({}, { each: true })
   professor: number[];
 }

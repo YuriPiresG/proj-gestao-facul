@@ -67,6 +67,7 @@ export class CalendarDayService {
       throw new BadRequestException('Subject not found');
     }
     const updatedCalendarDay = new CalendarDay();
+    updatedCalendarDay.id = id;
     updatedCalendarDay.dayOfTheWeek = updateCalendarDayDto.dayOfTheWeek;
     updatedCalendarDay.calendar = calendarFound;
     updatedCalendarDay.subject = subjectFound;
@@ -74,7 +75,7 @@ export class CalendarDayService {
       (professor) => ({ id: professor } as Professor),
     );
     updatedCalendarDay.period = updateCalendarDayDto.period;
-    this.calendarDayRepository.update({ id }, updatedCalendarDay);
+    await this.calendarDayRepository.save(updatedCalendarDay);
     return `CalendarDay updated to ${JSON.stringify(updatedCalendarDay)}`;
   }
   remove(id: number) {

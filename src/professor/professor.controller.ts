@@ -35,6 +35,7 @@ export class ProfessorController {
     @Param('id') id: string,
     @Body() updateProfessorDto: UpdateProfessorDto,
   ) {
+    console.log(updateProfessorDto);
     return this.professorService.update(+id, updateProfessorDto);
   }
 
