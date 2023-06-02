@@ -19,6 +19,7 @@ export class UpdateCalendarDayDto extends PartialType(CreateCalendarDayDto) {
   period: Periods[];
 
   @IsNotEmpty()
+  @IsArray()
   @IsNumber()
   professor: number[];
 }
