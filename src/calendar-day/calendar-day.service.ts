@@ -10,7 +10,6 @@ import { CalendarService } from 'src/calendar/calendar.service';
 import { Calendar } from 'src/calendar/entities/calendar.entity';
 import { Subject } from 'src/subject/entities/subject.entity';
 import { Professor } from 'src/professor/entities/professor.entity';
-
 @Injectable()
 export class CalendarDayService {
   constructor(
@@ -37,26 +36,23 @@ export class CalendarDayService {
     calendarDay.dayOfTheWeek = createCalendarDayDto.dayOfTheWeek;
     calendarDay.calendar = { id: createCalendarDayDto.calendarId } as Calendar;
     calendarDay.subject = { id: createCalendarDayDto.subject } as Subject;
-    calendarDay.professor = {
-      id: createCalendarDayDto.professor,
-    } as Professor;
+    calendarDay.professor = createCalendarDayDto.professor.map(
+      (professor) => ({ id: professor } as Professor),
+    );
     calendarDay.period = createCalendarDayDto.period;
     return this.calendarDayRepository.save(calendarDay);
   }
-
   findAll() {
     return this.calendarDayRepository.find({
       relations: ['calendar', 'subject', 'professor'],
     });
   }
-
   findOne(id: number) {
     return this.calendarDayRepository.findOne({
       where: { id },
       relations: ['calendar', 'calendarId.course', 'subject', 'professor'],
     });
   }
-
   async update(id: number, updateCalendarDayDto: UpdateCalendarDayDto) {
     const calendarFound = await this.calendarService.findOne(
       updateCalendarDayDto.calendarId,
@@ -74,14 +70,13 @@ export class CalendarDayService {
     updatedCalendarDay.dayOfTheWeek = updateCalendarDayDto.dayOfTheWeek;
     updatedCalendarDay.calendar = calendarFound;
     updatedCalendarDay.subject = subjectFound;
-    updatedCalendarDay.professor = {
-      id: updateCalendarDayDto.professor,
-    } as Professor;
+    updatedCalendarDay.professor = updateCalendarDayDto.professor.map(
+      (professor) => ({ id: professor } as Professor),
+    );
     updatedCalendarDay.period = updateCalendarDayDto.period;
     this.calendarDayRepository.update({ id }, updatedCalendarDay);
     return `CalendarDay updated to ${JSON.stringify(updatedCalendarDay)}`;
   }
-
   remove(id: number) {
     return this.calendarDayRepository.delete(id);
   }
