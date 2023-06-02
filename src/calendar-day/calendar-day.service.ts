@@ -37,9 +37,9 @@ export class CalendarDayService {
     calendarDay.dayOfTheWeek = createCalendarDayDto.dayOfTheWeek;
     calendarDay.calendar = { id: createCalendarDayDto.calendarId } as Calendar;
     calendarDay.subject = { id: createCalendarDayDto.subject } as Subject;
-    calendarDay.professor = createCalendarDayDto.professor.map(
-      (professor) => ({ id: professor } as Professor),
-    );
+    calendarDay.professor = {
+      id: createCalendarDayDto.professor,
+    } as Professor;
     calendarDay.period = createCalendarDayDto.period;
     return this.calendarDayRepository.save(calendarDay);
   }
@@ -74,9 +74,9 @@ export class CalendarDayService {
     updatedCalendarDay.dayOfTheWeek = updateCalendarDayDto.dayOfTheWeek;
     updatedCalendarDay.calendar = calendarFound;
     updatedCalendarDay.subject = subjectFound;
-    updatedCalendarDay.professor = updateCalendarDayDto.professor.map(
-      (professor) => ({ id: professor } as Professor),
-    );
+    updatedCalendarDay.professor = {
+      id: updateCalendarDayDto.professor,
+    } as Professor;
     updatedCalendarDay.period = updateCalendarDayDto.period;
     this.calendarDayRepository.update({ id }, updatedCalendarDay);
     return `CalendarDay updated to ${JSON.stringify(updatedCalendarDay)}`;

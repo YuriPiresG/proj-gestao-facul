@@ -33,5 +33,5 @@ export class CalendarDay {
 
   @ManyToMany(() => Professor)
   @JoinTable()
-  professor: Professor[];
+  professor: Professor;
 }

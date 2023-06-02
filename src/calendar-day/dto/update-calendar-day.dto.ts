@@ -24,5 +24,5 @@ export class UpdateCalendarDayDto extends PartialType(CreateCalendarDayDto) {
 
   @IsNotEmpty()
   @IsNumber()
-  professor: number[];
+  professor: number;
 }
