@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CalendarModule } from 'src/calendar/calendar.module';
 import { ProfessorModule } from 'src/professor/professor.module';
@@ -10,7 +10,7 @@ import { CalendarDay } from './entities/calendar-day.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([CalendarDay]),
-    CalendarModule,
+    forwardRef(() => CalendarModule),
     ProfessorModule,
     SubjectsModule,
   ],
