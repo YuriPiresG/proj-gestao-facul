@@ -76,7 +76,6 @@ export class CalendarService {
 
   async remove(id: number) {
     const calendarDayFound = await this.calendarDayService.findByCalendarId(id);
-    console.log(calendarDayFound);
     if (calendarDayFound.length > 0) {
       calendarDayFound.forEach(async (calendarDay) => {
         await this.calendarDayService.remove(calendarDay.id);
