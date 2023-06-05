@@ -43,4 +43,8 @@ export class CalendarDayController {
   remove(@Param('id') id: string) {
     return this.calendarDayService.remove(+id);
   }
+  @Get('test/:id')
+  findByCalendar(@Param('id') id: string) {
+    return this.calendarDayService.findByCalendarId(+id);
+  }
 }

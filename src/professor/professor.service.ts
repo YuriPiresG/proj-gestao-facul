@@ -1,16 +1,11 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  forwardRef,
-} from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserRole } from 'src/users/constants/user-role.constant';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { CreateProfessorDto } from './dto/create-professor.dto';
 import { UpdateProfessorDto } from './dto/update-professor.dto';
 import { Professor } from './entities/professor.entity';
-import { UserRole } from 'src/users/constants/user-role.constant';
 
 @Injectable()
 export class ProfessorService {

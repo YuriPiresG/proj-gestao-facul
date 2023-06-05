@@ -1,14 +1,22 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { CreateCalendarDto } from './dto/create-calendar.dto';
 import { UpdateCalendarDto } from './dto/update-calendar.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Calendar } from './entities/calendar.entity';
 import { Repository } from 'typeorm';
 import { CourseService } from 'src/course/course.service';
+import { CalendarDayService } from 'src/calendar-day/calendar-day.service';
 
 @Injectable()
 export class CalendarService {
   constructor(
+    @Inject(forwardRef(() => CalendarDayService))
+    private calendarDayService: CalendarDayService,
     @InjectRepository(Calendar)
     private calendarRepository: Repository<Calendar>,
     private courseService: CourseService,
@@ -66,7 +74,15 @@ export class CalendarService {
     return `Calendar updated to ${JSON.stringify(updatedCalendar)}`;
   }
 
-  remove(id: number) {
-    return this.calendarRepository.delete({ id });
+  async remove(id: number) {
+    const calendarDayFound = await this.calendarDayService.findByCalendarId(id);
+    console.log(calendarDayFound);
+    if (calendarDayFound.length > 0) {
+      calendarDayFound.forEach(async (calendarDay) => {
+        await this.calendarDayService.remove(calendarDay.id);
+      });
+    }
+    await this.calendarRepository.delete({ id });
+    return `Calendar with id ${id} deleted`;
   }
 }
