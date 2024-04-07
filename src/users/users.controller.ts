@@ -15,6 +15,7 @@ import { UserDec } from 'src/decorator/user.decorator';
 import { UserJwtPayload } from 'src/auth/jwt.strategy';
 import { Roles } from 'src/decorator/roles.decorator';
 import { UserRole } from './constants/user-role.constant';
+import { Public } from 'src/decorator/auth.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -26,7 +27,8 @@ export class UsersController {
   }
 
   @Post()
-  @Roles(UserRole.ADMIN)
+  @Public()
+  // @Roles(UserRole.ADMIN)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }

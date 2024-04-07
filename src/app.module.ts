@@ -30,10 +30,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
-        console.log(configService.get<string>('DB_CONNECTION'));
         return {
           type: 'postgres',
-          url: configService.get<string>('DB_CONNECTION'),
+          url: 'postgresql://postgres:password@localhost:5432/edu_schedule',
           entities: [
             User,
             Course,
