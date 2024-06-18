@@ -11,11 +11,11 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { UserDec } from 'src/decorator/user.decorator';
-import { UserJwtPayload } from 'src/auth/jwt.strategy';
-import { Roles } from 'src/decorator/roles.decorator';
+import { UserDec } from '../decorator/user.decorator';
+import { UserJwtPayload } from '../auth/jwt.strategy';
+import { Roles } from '../decorator/roles.decorator';
 import { UserRole } from './constants/user-role.constant';
-import { Public } from 'src/decorator/auth.decorator';
+import { Public } from '../decorator/auth.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -36,6 +36,11 @@ export class UsersController {
   @Get()
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @Get('cards')
+  cardsHomePage() {
+    return this.usersService.cardsHomePage();
   }
 
   @Get(':name')

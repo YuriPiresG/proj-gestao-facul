@@ -7,11 +7,11 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from './entities/course.entity';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { UserRole } from 'src/users/constants/user-role.constant';
-import { MatrixService } from 'src/matrix/matrix.service';
+import { UserRole } from '../users/constants/user-role.constant';
+import { MatrixService } from '../matrix/matrix.service';
 
 interface FindOneOptions {
   id?: number;
@@ -42,6 +42,17 @@ export class CourseService {
 
   findAll() {
     return this.courseRepository.find({ relations: ['coordinatorId'] });
+  }
+
+  async cardCourseHomePage() {
+    const course = await this.courseRepository
+      .createQueryBuilder()
+      .select('count(*)')
+      .getCount();
+    const card = {
+      course,
+    };
+    return card;
   }
 
   async findById({ id }: FindOneOptions) {

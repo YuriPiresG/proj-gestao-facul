@@ -1,14 +1,11 @@
-import { CalendarDay } from 'src/calendar-day/entities/calendar-day.entity';
-import { Periods } from 'src/course/constants/period.constant';
-import { User } from 'src/users/entities/user.entity';
+import { Periods } from '../../course/constants/period.constant';
+import { User } from '../../users/entities/user.entity';
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
+  Entity,
   JoinColumn,
-  OneToMany,
-  ManyToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()

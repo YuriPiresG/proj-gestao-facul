@@ -3,8 +3,8 @@ import { CalendarService } from './calendar.service';
 import { CalendarController } from './calendar.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Calendar } from './entities/calendar.entity';
-import { CourseModule } from 'src/course/course.module';
-import { CalendarDayModule } from 'src/calendar-day/calendar-day.module';
+import { CourseModule } from '../course/course.module';
+import { CalendarDayModule } from '../calendar-day/calendar-day.module';
 
 @Module({
   imports: [

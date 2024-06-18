@@ -1,5 +1,5 @@
-import { CalendarDay } from 'src/calendar-day/entities/calendar-day.entity';
-import { Course } from 'src/course/entities/course.entity';
+import { CalendarDay } from '../../calendar-day/entities/calendar-day.entity';
+import { Course } from '../../course/entities/course.entity';
 import {
   Entity,
   Column,

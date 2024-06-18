@@ -9,8 +9,8 @@ import { UpdateCalendarDto } from './dto/update-calendar.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Calendar } from './entities/calendar.entity';
 import { Repository } from 'typeorm';
-import { CourseService } from 'src/course/course.service';
-import { CalendarDayService } from 'src/calendar-day/calendar-day.service';
+import { CourseService } from '../course/course.service';
+import { CalendarDayService } from '../calendar-day/calendar-day.service';
 
 @Injectable()
 export class CalendarService {

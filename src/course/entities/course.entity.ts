@@ -6,8 +6,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Periods } from '../constants/period.constant';
-import { Matrix } from 'src/matrix/entities/matrix.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Matrix } from '../../matrix/entities/matrix.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Course {

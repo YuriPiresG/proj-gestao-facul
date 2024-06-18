@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/users/entities/user.entity';
-import { UserRole } from 'src/users/constants/user-role.constant';
+import { User } from '../users/entities/user.entity';
+import { UserRole } from '../users/constants/user-role.constant';
 import * as bcrypt from 'bcrypt';
 
 export interface JwtPayload {
@@ -24,6 +24,7 @@ export class AuthService {
     if (!user) {
       return null;
     }
+
     const isMatch = await bcrypt.compare(pass, user.password);
     if (isMatch === true) {
       const { password, ...result } = user;

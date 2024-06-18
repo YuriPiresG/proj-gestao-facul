@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { IsArray, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
-import { Periods } from 'src/course/constants/period.constant';
+import { Periods } from '../../course/constants/period.constant';
 import { DayOfTheWeek } from '../constants/dayOfTheWeek.constant';
 import { CreateCalendarDayDto } from './create-calendar-day.dto';
 export class UpdateCalendarDayDto extends PartialType(CreateCalendarDayDto) {

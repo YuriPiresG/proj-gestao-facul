@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
 import { UserRole } from '../constants/user-role.constant';
-import { Professor } from 'src/professor/entities/professor.entity';
+import { Professor } from '../../professor/entities/professor.entity';
 
 @Entity()
 export class User {

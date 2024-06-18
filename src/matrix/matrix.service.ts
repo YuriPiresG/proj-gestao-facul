@@ -5,7 +5,7 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CourseService } from 'src/course/course.service';
+import { CourseService } from '../course/course.service';
 import { Repository } from 'typeorm';
 import { CreateMatrixDto } from './dto/create-matrix.dto';
 import { UpdateMatrixDto } from './dto/update-matrix.dto';

@@ -1,5 +1,5 @@
 import { IsArray, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
-import { Periods } from 'src/course/constants/period.constant';
+import { Periods } from '../../course/constants/period.constant';
 import { DayOfTheWeek } from '../constants/dayOfTheWeek.constant';
 export class CreateCalendarDayDto {
   @IsNotEmpty()

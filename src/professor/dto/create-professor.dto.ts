@@ -5,7 +5,7 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
-import { Periods } from 'src/course/constants/period.constant';
+import { Periods } from '../../course/constants/period.constant';
 
 export class CreateProfessorDto {
   @IsNotEmpty()

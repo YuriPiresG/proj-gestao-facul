@@ -11,7 +11,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { ProfessorService } from 'src/professor/professor.service';
+import { ProfessorService } from '../professor/professor.service';
 
 interface FindOneOptions {
   id?: number;
@@ -37,7 +37,13 @@ export class UsersService {
     }
     const hashPass = await bcrypt.hash(createUserDto.password, 10);
     createUserDto.password = hashPass;
-    return await this.usersRepository.save(createUserDto);
+    const user = await this.usersRepository.save(createUserDto);
+    if (createUserDto.role === 3) {
+      await this.professorService.create({
+        userId: user.id,
+        periods: [],
+      });
+    }
   }
 
   async findByUsername(username: string): Promise<User> {
@@ -46,6 +52,26 @@ export class UsersService {
 
   findAll() {
     return this.usersRepository.find();
+  }
+
+  async cardsHomePage() {
+    const professor = await this.usersRepository
+      .createQueryBuilder()
+      .select('count(*)')
+      .where('role = :role', { role: 3 })
+      .getCount();
+    const coordinator = await this.usersRepository
+      .createQueryBuilder()
+      .select('count(*)')
+      .where('role = :role', { role: 2 })
+      .getCount();
+
+    const card = {
+      professor,
+      coordinator,
+    };
+
+    return card;
   }
 
   async findOne({ id, username }: FindOneOptions): Promise<User> {
@@ -58,10 +84,11 @@ export class UsersService {
     return userValue;
   }
 
-  // TODO: Ver com o Melo, está dando erro de Unique. Não está dando replace no banco de dados.
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const hashPass = await bcrypt.hash(updateUserDto.password, 10);
-    updateUserDto.password = hashPass;
+    if (updateUserDto.password) {
+      const hashPass = await bcrypt.hash(updateUserDto.password, 10);
+      updateUserDto.password = hashPass;
+    }
     return await this.usersRepository.update(id, updateUserDto);
   }
 

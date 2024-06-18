@@ -3,8 +3,8 @@ import { CourseService } from './course.service';
 import { CourseController } from './course.controller';
 import { Course } from './entities/course.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from 'src/users/users.module';
-import { MatrixModule } from 'src/matrix/matrix.module';
+import { UsersModule } from '../users/users.module';
+import { MatrixModule } from '../matrix/matrix.module';
 
 @Module({
   imports: [

@@ -1,7 +1,7 @@
-import { Calendar } from 'src/calendar/entities/calendar.entity';
-import { Periods } from 'src/course/constants/period.constant';
-import { Professor } from 'src/professor/entities/professor.entity';
-import { Subject } from 'src/subject/entities/subject.entity';
+import { Calendar } from '../../calendar/entities/calendar.entity';
+import { Periods } from '../../course/constants/period.constant';
+import { Professor } from '../../professor/entities/professor.entity';
+import { Subject } from '../../subject/entities/subject.entity';
 import {
   Column,
   Entity,

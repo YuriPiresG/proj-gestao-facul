@@ -7,8 +7,8 @@ import {
   Delete,
   Put,
 } from '@nestjs/common';
-import { Roles } from 'src/decorator/roles.decorator';
-import { UserRole } from 'src/users/constants/user-role.constant';
+import { Roles } from '../decorator/roles.decorator';
+import { UserRole } from '../users/constants/user-role.constant';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
@@ -26,6 +26,11 @@ export class CourseController {
   @Get()
   findAll() {
     return this.courseService.findAll();
+  }
+
+  @Get('cards')
+  cardCourseHomePage() {
+    return this.courseService.cardCourseHomePage();
   }
 
   @Get(':id')

@@ -1,7 +1,7 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserRole } from 'src/users/constants/user-role.constant';
-import { UsersService } from 'src/users/users.service';
+import { UserRole } from '../users/constants/user-role.constant';
+import { UsersService } from '../users/users.service';
 import { Repository } from 'typeorm';
 import { CreateProfessorDto } from './dto/create-professor.dto';
 import { UpdateProfessorDto } from './dto/update-professor.dto';
@@ -19,28 +19,17 @@ export class ProfessorService {
     const userFound = await this.usersService.findOne({
       id: createProfessorDto.userId,
     });
+
     const professor = new Professor();
     professor.user = userFound;
-    const updatedRole = await this.usersService.update(
-      createProfessorDto.userId,
-      {
-        username: userFound.username,
-        name: userFound.name,
-        role: UserRole.PROFESSOR,
-        email: userFound.email,
-        password: userFound.password,
-      },
-    );
+    await this.usersService.update(createProfessorDto.userId, {
+      role: UserRole.PROFESSOR,
+    });
+
     professor.periods = createProfessorDto.periods;
 
     return await this.professorRepository.save(professor);
-    //TODO ver com o Melo pq o codigo abaixo salvava user como NUll antes
-    // return await this.professorRepository.save({
-    //   userId: createProfessorDto.userId,
-    //   periods: createProfessorDto.periods,
-    // });
   }
-
   findAll() {
     return this.professorRepository.find({ relations: ['user'] });
   }

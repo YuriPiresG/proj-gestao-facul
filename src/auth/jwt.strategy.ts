@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { jwtConstants } from './constants';
 import { JwtPayload } from './auth.service';
-import { UserRole } from 'src/users/constants/user-role.constant';
+import { UserRole } from '../users/constants/user-role.constant';
 
 export interface UserJwtPayload {
   userId: number;

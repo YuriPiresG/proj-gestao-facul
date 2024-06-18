@@ -1,5 +1,5 @@
-import { Course } from 'src/course/entities/course.entity';
-import { Subject } from 'src/subject/entities/subject.entity';
+import { Course } from '../../course/entities/course.entity';
+import { Subject } from '../../subject/entities/subject.entity';
 import {
   Entity,
   Column,

@@ -10,8 +10,8 @@ import {
 import { MatrixService } from './matrix.service';
 import { CreateMatrixDto } from './dto/create-matrix.dto';
 import { UpdateMatrixDto } from './dto/update-matrix.dto';
-import { Roles } from 'src/decorator/roles.decorator';
-import { UserRole } from 'src/users/constants/user-role.constant';
+import { Roles } from '../decorator/roles.decorator';
+import { UserRole } from '../users/constants/user-role.constant';
 
 @Controller('matrix')
 export class MatrixController {
