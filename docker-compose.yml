@@ -1,23 +1,14 @@
 version: '3.8'
 services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: postgresql://postgres:password@db:5432/edu_schedule
   db:
     image: postgres:13
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: edu_schedule
     volumes:
       - pgdata:/var/lib/postgresql/data
-
 volumes:
   pgdata:
