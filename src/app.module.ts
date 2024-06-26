@@ -43,6 +43,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             CalendarDay,
           ],
           synchronize: true,
+          migrations: ['dist/migrations/*{.ts,.js}'],
         };
       },
       inject: [ConfigService],
